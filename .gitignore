@@ -1,0 +1,13 @@
+# Build artifacts
+*.dSYM/
+main
+
+# Editor configurations
+.vscode/
+*.code-workspace
+
+# Temporary files
+*.plist
+
+# Test inputs
+inputs/*.csv
