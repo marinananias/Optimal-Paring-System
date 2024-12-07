@@ -11,3 +11,6 @@ main
 
 # Test inputs
 inputs/*.csv
+
+# Output csv
+tests/*.csv
