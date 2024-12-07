@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "input_parser.h"
+#include "utils.h"
 
 // Helper function to count rows in a file
 int count_rows(FILE* file) {
@@ -12,35 +13,6 @@ int count_rows(FILE* file) {
     }
     rewind(file); // Reset the file pointer to the beginning
     return rows;
-}
-
-// Helper function to split a multi-value field into an array of values
-char** split_field(const char* field, int* count) {
-    char* copy = strdup(field); // Create a modifiable copy of the field
-    char** result = NULL;       // Array to store individual values
-    int token_count = 0;
-
-    char* token = strtok(copy, "|"); // Split by '|'
-    while (token != NULL) {
-        result = realloc(result, sizeof(char*) * (token_count + 1));
-        if (!result) {
-            perror("Failed to allocate memory for field values");
-            exit(EXIT_FAILURE);
-        }
-
-        result[token_count] = strdup(token); // Copy the token
-        if (!result[token_count]) {
-            perror("Failed to allocate memory for a value");
-            exit(EXIT_FAILURE);
-        }
-
-        token_count++;
-        token = strtok(NULL, "|");
-    }
-
-    free(copy);
-    *count = token_count;
-    return result;
 }
 
 // Helper function to parse a line into columns, supporting multi-value fields
