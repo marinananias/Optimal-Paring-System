@@ -4,6 +4,7 @@
 #include "input_parser.h"
 #include "matching_engine.h"
 #include "output_writer.h"
+#include "solution_selector.h"
 
 int main(int argc, char** argv) {
 	// Make sure we have all the arguments we need
@@ -48,14 +49,35 @@ int main(int argc, char** argv) {
 						matches[i].score);
 	}
 
+    // Find optimal matches
+    int optimal_match_count = 0;
+    Match* optimal_matches = find_optimal_matches(data1, data2, &optimal_match_count);
+
+    if (!optimal_matches) {
+        fprintf(stderr, "Error: Failed to find optimal matches.\n");
+        free_input_data(data1);
+        free_input_data(data2);
+        return EXIT_FAILURE;
+    }
+
+    // Print matches
+    printf("Optimal Matches:\n");
+    for (int i = 0; i < optimal_match_count; i++) {
+        printf("Row1: %s (Needs: %s), Row2: %s (Expertise: %s), Score: %.2f\n",
+               data1.data[optimal_matches[i].row1][0], data1.data[optimal_matches[i].row1][1],
+               data2.data[optimal_matches[i].row2][0], data2.data[optimal_matches[i].row2][1],
+               optimal_matches[i].score);
+    }
+
 	// Write matches to a CSV file
-	const char* output_file = "matches_output.csv";
-	write_matches_to_csv(output_file, matches, match_count, data1, data2);
+    const char* output_file = "optimal_matches_output.csv";
+    write_matches_to_csv(output_file, optimal_matches, optimal_match_count, data1, data2);
 
 	// Clean up
+    free(optimal_matches);
 	free_matches(matches);
 	free_input_data(data1);
 	free_input_data(data2);
-
+	
 	return EXIT_SUCCESS;
 }

@@ -12,5 +12,13 @@ main
 # Test inputs
 inputs/*.csv
 
-# Output csv
+# Ignore all CSV files in 'tests'
 tests/*.csv
+
+# Ignore everything in 'tests' folder by default
+tests/*
+
+# Explicitly include specific files
+!tests/test_solution_selector
+!tests/test_matching_engine
+!tests/test_output_writer

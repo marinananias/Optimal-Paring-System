@@ -7,9 +7,9 @@ int main() {
     // Test input data for InputData structures
     InputData data1 = {
         .data = (char**[]) {
-            (char*[]) {"John", "Math", NULL},
-            (char*[]) {"Jane", "Science", NULL},
-            (char*[]) {"Jack", "History", NULL},
+            (char*[]) {"John", "Math|Science", NULL},    // John needs Math or Science
+            (char*[]) {"Jane", "Science|History", NULL}, // Jane needs Science or History
+            (char*[]) {"Jack", "History", NULL},         // Jack needs History
             NULL
         },
         .rows = 3,
@@ -18,9 +18,9 @@ int main() {
 
     InputData data2 = {
         .data = (char**[]) {
-            (char*[]) {"Alice", "Math", NULL},
-            (char*[]) {"Bob", "Science", NULL},
-            (char*[]) {"Charlie", "History", NULL},
+            (char*[]) {"Alice", "Math|Science", NULL},   // Alice offers Math or Science
+            (char*[]) {"Bob", "Math", NULL},             // Bob offers Math
+            (char*[]) {"Charlie", "History|Science", NULL}, // Charlie offers History or Science
             NULL
         },
         .rows = 3,
@@ -28,7 +28,7 @@ int main() {
     };
 
     if (!data1.valid || !data2.valid) {
-        fprintf(stderr, "Failed to parse input files.\n");
+        fprintf(stderr, "Failed to parse input data.\n");
         return EXIT_FAILURE;
     }
 

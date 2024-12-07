@@ -13,6 +13,9 @@ typedef struct {
 // Function to calculate compatibility scores between two datasets
 Match* calculate_matches(InputData data1, InputData data2, int* match_count);
 
+// Helper function to compute compatibility score
+double compute_score(const char** row1, const char** row2, int columns1, int columns2);
+
 // Function to free memory allocated for matches
 void free_matches(Match* matches);
 
