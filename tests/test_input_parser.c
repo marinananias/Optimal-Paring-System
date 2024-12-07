@@ -13,13 +13,19 @@ int main() {
     // Print data from file1
     printf("Data from %s:\n", file1);
     for (int i = 0; i < data1.rows; i++) {
-        printf("Row %d: %s, %s\n", i + 1, data1.data[i][0], data1.data[i][1]);
+        printf("Row %d:\n", i + 1);
+        for (int j = 0; data1.data[i][j] != NULL; j++) {
+            printf("  Column %d: %s\n", j + 1, data1.data[i][j]);
+        }
     }
 
     // Print data from file2
     printf("\nData from %s:\n", file2);
     for (int i = 0; i < data2.rows; i++) {
-        printf("Row %d: %s, %s\n", i + 1, data2.data[i][0], data2.data[i][1]);
+        printf("Row %d:\n", i + 1);
+        for (int j = 0; data2.data[i][j] != NULL; j++) {
+            printf("  Column %d: %s\n", j + 1, data2.data[i][j]);
+        }
     }
 
     // Free allocated memory

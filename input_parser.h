@@ -7,7 +7,10 @@ typedef struct {
     int valid;    // Indicates if the parsing was successful
 } InputData;
 
-InputData parse_input_file(const char* file1_name);
+// Parses a CSV file and returns an InputData structure
+InputData parse_input_file(const char* file_name);
+
+// Frees dynamically allocated memory in an InputData structure
 void free_input_data(InputData data);
 
 #endif

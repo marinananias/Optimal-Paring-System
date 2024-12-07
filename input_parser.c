@@ -14,8 +14,36 @@ int count_rows(FILE* file) {
     return rows;
 }
 
-// Helper function to parse a line into columns
-// Helper function to parse a line into columns
+// Helper function to split a multi-value field into an array of values
+char** split_field(const char* field, int* count) {
+    char* copy = strdup(field); // Create a modifiable copy of the field
+    char** result = NULL;       // Array to store individual values
+    int token_count = 0;
+
+    char* token = strtok(copy, "|"); // Split by '|'
+    while (token != NULL) {
+        result = realloc(result, sizeof(char*) * (token_count + 1));
+        if (!result) {
+            perror("Failed to allocate memory for field values");
+            exit(EXIT_FAILURE);
+        }
+
+        result[token_count] = strdup(token); // Copy the token
+        if (!result[token_count]) {
+            perror("Failed to allocate memory for a value");
+            exit(EXIT_FAILURE);
+        }
+
+        token_count++;
+        token = strtok(NULL, "|");
+    }
+
+    free(copy);
+    *count = token_count;
+    return result;
+}
+
+// Helper function to parse a line into columns, supporting multi-value fields
 char** parse_line(const char* line, int* columns) {
     char** result = NULL; // Array to store parsed columns
     char* token = NULL;   // Current token
@@ -25,18 +53,45 @@ char** parse_line(const char* line, int* columns) {
     // Tokenize the line based on ',' or '\n'
     token = strtok(line_copy, ",\n");
     while (token != NULL) {
-        // Allocate memory for the new column
-        result = realloc(result, sizeof(char*) * (col_count + 1));
-        if (!result) {
-            perror("Failed to allocate memory for columns");
-            exit(EXIT_FAILURE);
-        }
+        // Check if the field contains multi-values
+        if (strchr(token, '|')) {
+            // Split the multi-value field
+            int sub_count = 0;
+            char** split_values = split_field(token, &sub_count);
 
-        // Duplicate the token and store it in the result
-        result[col_count] = strdup(token);
-        if (!result[col_count]) {
-            perror("Failed to allocate memory for a column");
-            exit(EXIT_FAILURE);
+            // Convert the split values back into a single string for storage
+            char* combined = malloc(1024); // Ensure enough space
+            combined[0] = '\0';
+            for (int i = 0; i < sub_count; i++) {
+                strcat(combined, split_values[i]);
+                if (i < sub_count - 1) {
+                    strcat(combined, "|"); // Rejoin with '|'
+                }
+                free(split_values[i]);
+            }
+            free(split_values);
+
+            // Store the combined string
+            result = realloc(result, sizeof(char*) * (col_count + 1));
+            if (!result) {
+                perror("Failed to allocate memory for columns");
+                exit(EXIT_FAILURE);
+            }
+            result[col_count] = combined;
+        } else {
+            // Single-value field
+            result = realloc(result, sizeof(char*) * (col_count + 1));
+            if (!result) {
+                perror("Failed to allocate memory for columns");
+                exit(EXIT_FAILURE);
+            }
+
+            // Duplicate the token and store it in the result
+            result[col_count] = strdup(token);
+            if (!result[col_count]) {
+                perror("Failed to allocate memory for a column");
+                exit(EXIT_FAILURE);
+            }
         }
 
         col_count++;
