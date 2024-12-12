@@ -49,13 +49,13 @@ make clean
 
 ## **Usage**
 
-# **Command Syntax**:
+### **Command Syntax**:
 
 ```bash
 ./main <category> <file1> <file2>
 ```
 
-# **Parameters**
+## **Parameters**
 
 ### `<category>`:
 
@@ -70,7 +70,7 @@ CSV file containing the first dataset (mentees or participants).
 
 CSV file containing the second dataset (mentors or panels).
 
-# **Input File Format**
+## **Input File Format**
 
 Input files should follow a structured CSV format.
 
@@ -104,7 +104,7 @@ Alice,Math|History
 Bob,Chemistry|Physics
 ```
 
-# **Outputs**
+## **Outputs**
 
 The program generates various output files based on the matching category:
 
@@ -150,7 +150,7 @@ Threaded Execution Time: 0.001221 seconds
 Non-Threaded Execution Time: 0.000079 seconds
 ```
 
-# **Technical Concepts**
+## **Technical Concepts**
 
 1. Parallelism with Threads
    Each thread computes compatibility scores for one individual.
@@ -162,17 +162,17 @@ Non-Threaded Execution Time: 0.000079 seconds
    Parses CSV input files into structured datasets.
    Writes detailed logs and results for reproducibility.
 
-# **Error Handling**
+## **Error Handling**
 
 Invalid or missing files produce detailed error messages.
 Memory allocation failures are handled with error logs.
 Input validation ensures compatibility with expected formats.
 
-# **Known Limitations**
+## **Known Limitations**
 
 Assumes all input files are correctly formatted.
 Large datasets may require adjustments in thread pool size for optimal performance.
 
-# **License**
+## **License**
 
 This project is released under the MIT License.
