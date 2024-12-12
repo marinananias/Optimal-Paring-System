@@ -57,16 +57,16 @@ make clean
 
 ## **Parameters**
 
-### `<category>`:
+- `<category>`:
 
 - `mentee_mentor`: Match mentees to mentors, respecting capacity constraints.
 - `participant_panel`: Match participants to panels without constraints.
 
-### `<file1>`:
+- `<file1>`:
 
 CSV file containing the first dataset (mentees or participants).
 
-### `<file2>`:
+- `<file2>`:
 
 CSV file containing the second dataset (mentors or panels).
 
