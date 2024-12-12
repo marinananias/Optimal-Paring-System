@@ -108,10 +108,8 @@ Bob,Chemistry|Physics
 
 The program generates various output files based on the matching category:
 
-### **Output Files**
-
-`output.csv:`
-Contains final matches with compatibility scores.
+- `output.csv:`
+  Contains final matches with compatibility scores.
 
 Example:
 
@@ -121,8 +119,8 @@ Alice,George,2
 Bob,Holly,1
 ```
 
-`panel_popularity.csv` (for participant_panel):
-Logs the number of matches for each panel.
+- `panel_popularity.csv` (for participant_panel):
+  Logs the number of matches for each panel.
 
 Example:
 
@@ -132,18 +130,18 @@ Panel A,5
 Panel B,3
 ```
 
-`arrangement_scores.log`:
-Logs all evaluated arrangements and their total scores for mentee-mentor matching.
-Example:
+- `arrangement_scores.log`:
+  Logs all evaluated arrangements and their total scores for mentee-mentor matching.
+  Example:
 
 ```plaintext
 Arrangement,Total Score
 [0, 1], 3
 ```
 
-`threading_performance.log`:
-Logs execution times for threaded and non-threaded operations.
-Example:
+- `threading_performance.log`:
+  Logs execution times for threaded and non-threaded operations.
+  Example:
 
 ```plaintext
 Threaded Execution Time: 0.001221 seconds
@@ -164,14 +162,14 @@ Non-Threaded Execution Time: 0.000079 seconds
 
 ## **Error Handling**
 
-Invalid or missing files produce detailed error messages.
-Memory allocation failures are handled with error logs.
-Input validation ensures compatibility with expected formats.
+- Invalid or missing files produce detailed error messages.
+- Memory allocation failures are handled with error logs.
+- Input validation ensures compatibility with expected formats.
 
 ## **Known Limitations**
 
-Assumes all input files are correctly formatted.
-Large datasets may require adjustments in thread pool size for optimal performance.
+- Assumes all input files are correctly formatted.
+- Small datasets may not benefit in time of execution from thread parallelism. May actually be hurt.
 
 ## **License**
 
