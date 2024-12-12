@@ -20,5 +20,8 @@
 void select_optimal_matches(DataSet *mentees, DataSet *mentors, int *compatibility_scores, int **matches);
 void permute(int *array, int start, int end, int **best_matches, int *best_score, 
              DataSet *mentees, DataSet *mentors, int *compatibility_scores);
+void match_mentees_to_mentors(DataSet *mentees, DataSet *mentors, int **compatibility_scores);
+void match_mentees_to_mentors_non_threaded(DataSet *mentees, DataSet *mentors, int **compatibility_scores);
+void measure_threading_performance(DataSet *mentees, DataSet *mentors, int *compatibility_scores);
 
 #endif // SOLUTION_SELECTOR_H

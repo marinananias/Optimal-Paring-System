@@ -9,6 +9,7 @@ main
 # Temporary files
 *.plist
 *.csv
+*.log
 
 # Test inputs
 inputs/*.csv

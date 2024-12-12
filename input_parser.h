@@ -9,18 +9,27 @@
 #define INPUT_PARSER_H
 #include <stdbool.h>
 
-// Structure to store individual data rows
+/**
+ * @brief Represents an individual data row (e.g., Mentor or Mentee).
+ *
+ * Stores the name, a list of attributes (e.g., skills or topics),
+ * the number of attributes, and an optional capacity (for mentors).
+ */
 typedef struct {
-    char *name;            // Mentor or Mentee name
-    char **attributes;     // List of attributes
-    int attributes_count;  // Number of attributes
-    int capacity;          // Maximum number of mentees a mentor can take
+    char *name;            ///< Name of the entity (Mentor or Mentee)
+    char **attributes;     ///< List of attributes (pipe-separated in CSV)
+    int attributes_count;  ///< Number of attributes in the list
+    int capacity;          ///< Capacity (only applicable for mentors)
 } DataRow;
 
-// Structure to store the entire dataset
+/**
+ * @brief Represents the entire dataset parsed from a CSV file.
+ *
+ * Contains an array of `DataRow` objects and the total number of rows.
+ */
 typedef struct {
-    DataRow *rows; // Array of rows
-    int row_count; // Total number of rows
+    DataRow *rows;         ///< Array of rows (each representing a Mentor/Mentee)
+    int row_count;         ///< Total number of rows in the dataset
 } DataSet;
 
 // Function Declarations

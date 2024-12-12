@@ -19,5 +19,6 @@
 
 // Declare Function
 int write_output_file(const char *filename, DataSet *mentees, DataSet *mentors, int *matches, int *compatibility_scores, bool is_participant_panel);
+void analyze_panel_popularity(const char *filename, DataSet *mentors, int *compatibility_scores, int num_participants);
 
 #endif

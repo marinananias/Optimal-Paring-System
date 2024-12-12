@@ -6,23 +6,25 @@
  * two datasets (e.g., mentees and mentors or participants and panels). The engine uses
  * multi-threading to speed up the computation of compatibility scores.
  *
- * Key Components:
- * - Compatibility Score Calculation:
- *   - Compatibility between two individuals is determined by the number of matching attributes.
- * - Multi-threading:
- *   - Each thread computes compatibility scores for one individual against all members of the other group.
- * - Mutex:
- *   - Ensures thread-safe updates to shared data structures.
- * 
- * Threading Details:
- * - Threads are created for each individual in the first dataset (mentees or participants).
- * - A mutex is used to synchronize access to the shared compatibility scores array.
+ * Key Features:
+ * - Compatibility Score Calculation
+ * - Multi-threading for performance
+ * - Mutex for synchronization
  */
 #include "matching_engine.h"
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+// Uncomment to enable debug logs
+// #define DEBUG
+
+#ifdef DEBUG
+#define DEBUG_PRINT(...) printf(__VA_ARGS__)
+#else
+#define DEBUG_PRINT(...)
+#endif
 
 /**
  * @brief Structure to pass arguments to threads.
@@ -50,14 +52,13 @@ typedef struct {
  * @return The compatibility score as an integer.
  */
 int calculate_score(DataRow *a, DataRow *b) {
+    if (!a || !b) return 0; // Null check
+
     int score = 0;
     for (int i = 0; i < a->attributes_count; i++) {
         for (int j = 0; j < b->attributes_count; j++) {
             if (strcmp(a->attributes[i], b->attributes[j]) == 0) {
-                //////////////////////////////////////////////////////
-                // printf("Attribute i: %s\n", a->attributes[i]);
-                // printf("Attribute j: %s\n", b->attributes[j]);
-                //////////////////////////////////////////////////////
+                DEBUG_PRINT("Match found: %s\n", a->attributes[i]);
                 score++;
             }
         }
@@ -76,54 +77,16 @@ int calculate_score(DataRow *a, DataRow *b) {
  */
 void *compute_scores(void *args) {
     ThreadArgs *thread_args = (ThreadArgs *)args;
+    if (!thread_args || !thread_args->individual || !thread_args->group) return NULL;
+    
     for (int i = 0; i < thread_args->group->row_count; i++) {
-        //////////////////////////////////////////////////////
-        // printf("Calculating score between mentee %s and mentor %s\n",
-        // thread_args->individual->name, thread_args->group->rows[i].name);
-        //////////////////////////////////////////////////////
         int score = calculate_score(thread_args->individual, &thread_args->group->rows[i]);
-        // printf("Score: %d\n", score); //////////////////////////////////////////////////////
         pthread_mutex_lock(thread_args->mutex);
-        // printf("Writing score %d at position [%d][%d]\n", score, thread_args->index, i); //////////////////////////////////////////////////////
         thread_args->compatibility_scores[thread_args->index * thread_args->group->row_count + i] = score;
         pthread_mutex_unlock(thread_args->mutex);
     }
     return NULL;
 } // compute_scores
-
-/**
- * @brief Matches mentees to mentors by calculating compatibility scores.
- *
- * Creates one thread per mentee to compute compatibility scores against all mentors.
- * The results are stored in a shared compatibility scores array.
- *
- * @param mentees Pointer to the dataset of mentees.
- * @param mentors Pointer to the dataset of mentors.
- * @param compatibility_scores Pointer to an array to store compatibility scores.
- *        The array is dynamically allocated and must be freed by the caller.
- */
-void match_mentees_to_mentors(DataSet *mentees, DataSet *mentors, int **compatibility_scores) {
-    *compatibility_scores = malloc(mentees->row_count * mentors->row_count * sizeof(int));
-    pthread_t threads[mentees->row_count];
-    pthread_mutex_t mutex;
-    pthread_mutex_init(&mutex, NULL);
-
-    ThreadArgs args[mentees->row_count];
-    for (int i = 0; i < mentees->row_count; i++) {
-        args[i] = (ThreadArgs){.individual = &mentees->rows[i],
-                               .group = mentors,
-                               .compatibility_scores = *compatibility_scores,
-                               .index = i,
-                               .mutex = &mutex};
-        pthread_create(&threads[i], NULL, compute_scores, &args[i]);
-    }
-
-    for (int i = 0; i < mentees->row_count; i++) {
-        pthread_join(threads[i], NULL);
-    }
-
-    pthread_mutex_destroy(&mutex);
-} // match_mentees_to_mentors
 
 /**
  * @brief Matches participants to panels by calculating compatibility scores.
@@ -137,12 +100,23 @@ void match_mentees_to_mentors(DataSet *mentees, DataSet *mentors, int **compatib
  *                             The array is dynamically allocated and must be freed by the caller.
  */
 void match_participants_to_panels(DataSet *participants, DataSet *panels, int **compatibility_scores) {
+    if (!participants || !panels || !compatibility_scores) {
+        fprintf(stderr, "Invalid inputs to match_participants_to_panels.\n");
+        return;
+    }
+
     // Similar logic as match_mentees_to_mentors
     *compatibility_scores = malloc(participants->row_count * panels->row_count * sizeof(int));
+    if (!*compatibility_scores) {
+        perror("Failed to allocate memory for compatibility scores");
+        return;
+    }
+
     pthread_t threads[participants->row_count];
     pthread_mutex_t mutex;
     pthread_mutex_init(&mutex, NULL);
 
+    // Thread arguments
     ThreadArgs args[participants->row_count];
     for (int i = 0; i < participants->row_count; i++) {
         args[i] = (ThreadArgs){.individual = &participants->rows[i],
@@ -153,9 +127,57 @@ void match_participants_to_panels(DataSet *participants, DataSet *panels, int **
         pthread_create(&threads[i], NULL, compute_scores, &args[i]);
     }
 
+    // Join threads
     for (int i = 0; i < participants->row_count; i++) {
         pthread_join(threads[i], NULL);
     }
 
+    // Destroy the mutex
     pthread_mutex_destroy(&mutex);
 } // match_participants_to_panels
+
+/**
+ * @brief Matches mentees to mentors by calculating compatibility scores.
+ *
+ * Creates one thread per mentee to compute compatibility scores against all mentors.
+ * The results are stored in a shared compatibility scores array.
+ *
+ * @param mentees Pointer to the dataset of mentees.
+ * @param mentors Pointer to the dataset of mentors.
+ * @param compatibility_scores Pointer to an array to store compatibility scores.
+ *        The array is dynamically allocated and must be freed by the caller.
+ */
+void match_mentees_to_mentors(DataSet *mentees, DataSet *mentors, int **compatibility_scores) {
+    if (!mentees || !mentors || !compatibility_scores) {
+        fprintf(stderr, "Invalid inputs to match_mentees_to_mentors.\n");
+        return;
+    }
+    *compatibility_scores = malloc(mentees->row_count * mentors->row_count * sizeof(int));
+    if (!*compatibility_scores) {
+        perror("Failed to allocate memory for compatibility scores");
+        return;
+    }
+
+    pthread_t threads[mentees->row_count];
+    pthread_mutex_t mutex;
+    pthread_mutex_init(&mutex, NULL);
+
+    // Thread arguments
+    ThreadArgs args[mentees->row_count];
+    for (int i = 0; i < mentees->row_count; i++) {
+        args[i] = (ThreadArgs){.individual = &mentees->rows[i],
+                               .group = mentors,
+                               .compatibility_scores = *compatibility_scores,
+                               .index = i,
+                               .mutex = &mutex}; // Pass the mutex for synchronization
+        pthread_create(&threads[i], NULL, compute_scores, &args[i]);
+    }
+
+    // Join threads
+    for (int i = 0; i < mentees->row_count; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    // Destroy the mutex
+    pthread_mutex_destroy(&mutex);
+} // match_mentees_to_mentors

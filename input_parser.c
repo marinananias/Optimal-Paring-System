@@ -2,22 +2,12 @@
  * @file input_parser.c
  * @brief CSV Parser for extracting data into memory.
  *
- * Contains the implementation of a CSV parser designed to process
- * files where each line contains a name, optional attributes (pipe-separated),
- * and an optional numeric capacity value. The parsed data is stored in dynamically 
- * allocated `DataSet` and `DataRow` structures for further use in applications.
+ * Parses CSV files into structured datasets for further use.
+ * Handles attributes as pipe-separated lists and an optional numeric capacity value.
  *
- * Key Features:
- * - Reads CSV files and parses lines into structured rows.
- * - Supports attributes as a pipe-separated list.
- * - Dynamically allocates memory for rows and attributes.
- * - Trims leading and trailing whitespace for clean data.
- * - Handles errors during file reading, memory allocation, and format validation.
- *
- * Example CSV Format:
- * Name,Attributes,Capacity
- * Item1,attr1|attr2|attr3,100
- * Item2,attrA|attrB,50
+ * Dependencies:
+ * - `input_parser.h`
+ * - Standard C libraries for file I/O and memory management.
  */
 #include "input_parser.h"
 #include <stdio.h>
@@ -72,10 +62,6 @@ static void split_attributes(char *attribute_str, DataRow *row) {
 
 /**
  * Parses a CSV file and populates a DataSet object with its contents.
- * Each row in the CSV file is represented as a DataRow in the DataSet.
- * The function expects the CSV file to follow a specific format:
- * - Each line contains a name, attributes (optional, pipe-separated), 
- * and an optional capacity.
  *
  * @param file_path Path to the CSV file to be parsed.
  * @param success Pointer to a boolean variable to indicate success or failure.
