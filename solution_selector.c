@@ -8,7 +8,6 @@
  * Dependencies:
  * - `solution_selector.h`: Declares the interface for these utilities.
  * - `input_parser.h`: Provides data structures for datasets of mentees and mentors.
- * - `stdlib.h`, `stdio.h`, `limits.h`: Standard libraries for memory allocation, input/output, and integer limits.
  */
 #include "solution_selector.h"
 #include "matching_engine.h"
@@ -50,10 +49,10 @@ void log_arrangements(Arrangement *arrangements, int count, const char *filename
     }
 
     fclose(file);
-}
+} // log_arrangements
 
 /**
- * @brief Optimized Hungarian Algorithm with capacity constraints and arrangement logging.
+ * @brief Hungarian Algorithm with capacity constraints and arrangement logging.
  *
  * Solves the assignment problem for mentees and mentors by maximizing compatibility scores
  * while respecting the capacity constraints of each mentor.
@@ -136,7 +135,7 @@ void select_optimal_matches(DataSet *mentees, DataSet *mentors, int *compatibili
     free(cost);
     free(row_assigned);
     free(mentor_capacity_remaining);
-}
+} // select_optimal_matches
 
 /**
  * @brief Measures the execution time of threaded and non-threaded matching algorithms.
@@ -152,15 +151,15 @@ void measure_threading_performance(DataSet *mentees, DataSet *mentors, int *comp
     struct timespec start, end;
     double threaded_time, non_threaded_time;
 
-    // Measure threaded execution
+    // Threaded execution
     clock_gettime(CLOCK_MONOTONIC, &start);
-    match_mentees_to_mentors(mentees, mentors, &compatibility_scores); // Threaded version
+    match_datasets(mentees, mentors, &compatibility_scores); // Threaded version
     clock_gettime(CLOCK_MONOTONIC, &end);
     threaded_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
-    // Measure non-threaded execution
+    // Non-threaded execution
     clock_gettime(CLOCK_MONOTONIC, &start);
-    match_mentees_to_mentors_non_threaded(mentees, mentors, &compatibility_scores); // Non-threaded version
+    match_datasets(mentees, mentors, &compatibility_scores); // Non-threaded version
     clock_gettime(CLOCK_MONOTONIC, &end);
     non_threaded_time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
@@ -176,7 +175,7 @@ void measure_threading_performance(DataSet *mentees, DataSet *mentors, int *comp
     } else {
         perror("Failed to open threading performance log file");
     }
-}
+} // measure_threading_performance
 
 /**
  * @brief Non-threaded version of the matching algorithm.
@@ -198,4 +197,4 @@ void match_mentees_to_mentors_non_threaded(DataSet *mentees, DataSet *mentors, i
             (*compatibility_scores)[i * m + j] = calculate_score(&mentees->rows[i], &mentors->rows[j]);
         }
     }
-}
+} // match_mentees_to_mentors_non_threaded

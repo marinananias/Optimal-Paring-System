@@ -7,13 +7,17 @@
 #include "solution_selector.h"
 #include "output_writer.h"
 
-// Function to display usage instructions
+/**
+ * @brief Displays usage instructions
+ * 
+ * @param program_name
+ */
 void print_usage(const char *program_name) {
     printf("Usage: %s <category> <file1> <file2>\n", program_name);
     printf("Categories:\n");
     printf("  mentee_mentor     Match mentors and mentees (with capacity constraints)\n");
     printf("  participant_panel Match participants and panels/initiatives (no constraints)\n");
-}
+} // print_usage
 
 /**
  * @brief Parses a dataset from a given file and handles errors.
@@ -29,7 +33,7 @@ DataSet *parse_dataset(const char *file_path, bool *success) {
         fprintf(stderr, "Error: Failed to parse input file: %s\n", file_path);
     }
     return dataset;
-}
+} // parse_dataset
 
 /**
  * @brief Frees allocated datasets and compatibility scores.
@@ -44,7 +48,7 @@ void cleanup_resources(DataSet *dataset1, DataSet *dataset2, int *compatibility_
     free(matches);
     free_dataset(dataset1);
     free_dataset(dataset2);
-}
+} // cleanup_resources
 
 int main(int argc, char *argv[]) {
     if (argc != 4) {
@@ -77,12 +81,12 @@ int main(int argc, char *argv[]) {
 
         // Run the matching process
         printf("Starting matching process for mentee_mentor...\n");
-        match_mentees_to_mentors(dataset1, dataset2, &compatibility_scores);
+        match_datasets(dataset1, dataset2, &compatibility_scores);
         select_optimal_matches(dataset1, dataset2, compatibility_scores, &matches);
         printf("Matching completed.\n\n");
     } else if (strcmp(category, "participant_panel") == 0) {
         printf("Starting matching process for participant_panel...\n");
-        match_participants_to_panels(dataset1, dataset2, &compatibility_scores);
+        match_datasets(dataset1, dataset2, &compatibility_scores);
         printf("Matching completed.\n\n");
 
         // Analyze panel popularity
@@ -105,4 +109,4 @@ int main(int argc, char *argv[]) {
 
     printf("Program completed successfully.\n");
     return EXIT_SUCCESS;
-}
+} // main

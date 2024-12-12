@@ -11,16 +11,6 @@
  * - `input_parser.h`: Provides definitions for `DataSet` and `DataRow`.
  * - `solution_selector.h`: Provides the matching indices.
  * - `matching_engine.h`: Provides the `calculate_score` function to compute compatibility scores.
- *
- * Functionality:
- * - Outputs a header row in the CSV file.
- * - Writes each mentee or participant, their matched mentor or panel, and the compatibility score.
- * - Handles cases where no valid match is found.
- *
- * Example Output:
- * Mentee/Participant,Mentor/Panel,Compatibility Score
- * John Doe,Jane Smith,10
- * Alice Johnson,No Match,0
  */
 #include <stdio.h>
 #include <stdlib.h>

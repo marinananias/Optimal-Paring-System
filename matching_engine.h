@@ -17,8 +17,7 @@
 #include "synchronization.h"
 
 // Function Declarations
-void match_mentees_to_mentors(DataSet *mentees, DataSet *mentors, int **compatibility_scores);
-void match_participants_to_panels(DataSet *participants, DataSet *panels, int **compatibility_scores);
 int calculate_score(DataRow *a, DataRow *b);
+void match_datasets(DataSet *dataset1, DataSet *dataset2, int **compatibility_scores);
 
 #endif // MATCHING_ENGINE_H
