@@ -4,9 +4,9 @@
 
 The Optimal Pairing System is a C application designed to match entities (mentees and mentors or participants and panels) based on compatibility. It employs computing concepts like multi-threading, synchronization, and file handling.
 
-This program
+This program was built for a final project on CSC 213 - Operating Systems & Parallel Algorithms Class.
 
----
+It also has the purpose to be used for BRASA - Brazilian Student Association.
 
 ## **Key Features**
 
@@ -19,16 +19,12 @@ This program
   - Panel popularity in participant-panel matching.
 - **Customizable Inputs**: Handles various data scenarios with flexible input formats.
 
----
-
 ## **System Requirements**
 
 - **Operating System**: Linux/macOS.
 - **Compiler**: GCC (recommended version 9.0+).
 - **Dependencies**:
   - POSIX thread library (pthreads).
-
----
 
 ## **Installation and Build**
 
@@ -50,8 +46,6 @@ make
 ```bash
 make clean
 ```
-
----
 
 ## **Usage**
 
@@ -75,8 +69,6 @@ CSV file containing the first dataset (mentees or participants).
 ### `<file2>`:
 
 CSV file containing the second dataset (mentors or panels).
-
----
 
 # **Input File Format**
 
@@ -111,8 +103,6 @@ Name,Attributes
 Alice,Math|History
 Bob,Chemistry|Physics
 ```
-
----
 
 # **Outputs**
 
@@ -160,8 +150,6 @@ Threaded Execution Time: 0.001221 seconds
 Non-Threaded Execution Time: 0.000079 seconds
 ```
 
----
-
 # **Technical Concepts**
 
 1. Parallelism with Threads
@@ -174,22 +162,16 @@ Non-Threaded Execution Time: 0.000079 seconds
    Parses CSV input files into structured datasets.
    Writes detailed logs and results for reproducibility.
 
----
-
 # **Error Handling**
 
 Invalid or missing files produce detailed error messages.
 Memory allocation failures are handled with error logs.
 Input validation ensures compatibility with expected formats.
 
----
-
 # **Known Limitations**
 
 Assumes all input files are correctly formatted.
 Large datasets may require adjustments in thread pool size for optimal performance.
-
----
 
 # **License**
 
