@@ -66,8 +66,6 @@ make
 
 ## **Input Files Provided**
 
-direcctions on what can be combined with what
-
 ### **mentees_mentors**
 
 - Small Inputs: `mentees1.csv` and `mentors1.csv`
