@@ -68,29 +68,23 @@ make
 
 direcctions on what can be combined with what
 
-### **mentees**
+### **mentees_mentors**
 
-- `mentees1.csv`
-- `mentees2.csv`
-- `mentees3.csv`
-- `mentees4.csv`
+- Small Inputs: `mentees1.csv` and `mentors1.csv`
+  Verify that the program runs correctly with minimal data.
+- Medium Inputs: `mentees2.csv` and `mentors2.csv`
+  Test the system under moderately realistic conditions.
+- Large Inputs: `mentees3.csv` and `mentors3.csv`
+  Compare execution times of threaded vs. non-threaded implementations for large workloads.
 
-### **mentors**
+### **participants_panels**
 
-- `mentors1.csv`
-- `mentors2.csv`
-- `mentors3.csv`
-- `mentors4.csv`
-
-### **participants**
-
-- `participants1.csv`
-- `participants2.csv`
-
-### **panels**
-
-- `panels1.csv`
-- `panels2.csv`
+- Small Inputs: `participants1.csv` and `panels1.csv`
+  Validate that the system correctly matches participants to panels.
+- Medium Inputs: `participants2.csv` and `panels2.csv`
+  Test feature completeness under moderately realistic conditions.
+- Large Inputs: `participants3.csv` and `panels3.csv`
+  Compare execution times of threaded vs. non-threaded implementations for large workloads.
 
 ## **Outputs**
 
@@ -102,7 +96,7 @@ The program generates various output files based on the matching category:
 **Example:**
 
 ```plaintext
-Mentee/Mentor,Compatibility Score
+Mentee,Mentor,Compatibility Score
 Alice,George,2
 Bob,Holly,1
 ```
