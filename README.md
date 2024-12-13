@@ -40,13 +40,13 @@ make
 - `mentee_mentor`:
 
 ```bash
-./main mentee_mentor mentees1.csv mentors1.csv
+./main mentee_mentor inputs/mentees1.csv inputs/mentors1.csv
 ```
 
 - `participant_panel`:
 
 ```bash
-./main participant_panel participants1.csv panels1.csv
+./main participant_panel inputs/participants1.csv inputs/panels1.csv
 ```
 
 ## **Command Syntax**
