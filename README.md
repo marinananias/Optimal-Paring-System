@@ -1,66 +1,64 @@
 # **Optimal Pairing System**
 
+- **Author:** [@marinanias](https://www.github.com/marinananias)
+- **Final Project:** CSC 213 - Operating Systems & Parallel Algorithms
+
 ## **Overview**
 
 The Optimal Pairing System is a C application designed to match entities (mentees and mentors or participants and panels) based on compatibility. It employs computing concepts like multi-threading, synchronization, and file handling.
 
-This program was built for a final project on CSC 213 - Operating Systems & Parallel Algorithms Class.
-
-It also has the purpose to be used for BRASA - Brazilian Student Association.
+It has the purpose to be used at BRASA-Brazilian Student Association-to automate the matching process for various organizational needs.
 
 ## **Key Features**
 
 - **Multi-threaded Performance**: Parallel processing of compatibility scores for faster execution.
 - **Synchronization**: Mutex-based locking ensures data consistency during multi-threaded operations.
 - **Capacity Constraints**: Respect mentors' capacity limits during matching.
-- **Extensive Logging**:
+- **Logging**:
   - Execution performance (threaded vs non-threaded).
   - Evaluated arrangements and their scores.
   - Panel popularity in participant-panel matching.
-- **Customizable Inputs**: Handles various data scenarios with flexible input formats.
+- **Customizable Inputs**: Handles two different data scenarios with flexible input formats.
 
-## **System Requirements**
+## **How to use this program?**
 
-- **Operating System**: Linux/macOS.
-- **Compiler**: GCC (recommended version 9.0+).
-- **Dependencies**:
-  - POSIX thread library (pthreads).
-
-## **Installation and Build**
-
-1. **Clone the Repository**:
+1. **Clone the Repository:**
 
 ```bash
 git clone <repository-url>
 cd final_project
 ```
 
-2. **Build the Project:**:
+2. **Build the Project:**
 
 ```bash
 make
 ```
 
-3. **Clean Build Files:**:
+3. **Run the Program:**
+
+- `mentee_mentor`:
 
 ```bash
-make clean
+./main mentee_mentor mentees1.csv mentors1.csv
 ```
 
-## **Usage**
+- `participant_panel`:
 
-### **Command Syntax**:
+```bash
+./main participant_panel participants1.csv panels1.csv
+```
+
+## **Command Syntax**
 
 ```bash
 ./main <category> <file1> <file2>
 ```
 
-## **Parameters**
-
 - `<category>`:
 
-- `mentee_mentor`: Match mentees to mentors, respecting capacity constraints.
-- `participant_panel`: Match participants to panels without constraints.
+  - `mentee_mentor`: Match mentees to mentors, respecting capacity constraints.
+  - `participant_panel`: Match participants to panels without constraints.
 
 - `<file1>`:
 
@@ -70,39 +68,33 @@ CSV file containing the first dataset (mentees or participants).
 
 CSV file containing the second dataset (mentors or panels).
 
-## **Input File Format**
+## **Input Files Provided**
 
-Input files should follow a structured CSV format.
+direcctions on what can be combined with what
 
-### **Headers**
+### **mentees**
 
-For `mentee_mentor`:
+- `mentees1.csv`
+- `mentees2.csv`
+- `mentees3.csv`
+- `mentees4.csv`
 
-```plaintext
-Name,Attributes,Capacity
-```
+### **mentors**
 
-For `participant_panel`:
+- `mentors1.csv`
+- `mentors2.csv`
+- `mentors3.csv`
+- `mentors4.csv`
 
-```plaintext
-Name,Attributes
-```
+### **participants**
 
-### **Example: Mentors**
+- `participants1.csv`
+- `participants2.csv`
 
-```plaintext
-Name,Attributes,Capacity
-George,Geography|Math|History,1
-Holly,Geography|Chemistry,2
-```
+### **panels**
 
-### **Example: Mentees**
-
-```plaintext
-Name,Attributes
-Alice,Math|History
-Bob,Chemistry|Physics
-```
+- `panels1.csv`
+- `panels2.csv`
 
 ## **Outputs**
 
@@ -111,7 +103,7 @@ The program generates various output files based on the matching category:
 - `output.csv:`
   Contains final matches with compatibility scores.
 
-Example:
+**Example:**
 
 ```plaintext
 Mentee/Mentor,Compatibility Score
@@ -122,7 +114,7 @@ Bob,Holly,1
 - `panel_popularity.csv` (for participant_panel):
   Logs the number of matches for each panel.
 
-Example:
+**Example:**
 
 ```plaintext
 Panel,Match Count
@@ -132,7 +124,8 @@ Panel B,3
 
 - `arrangement_scores.log`:
   Logs all evaluated arrangements and their total scores for mentee-mentor matching.
-  Example:
+
+**Example:**
 
 ```plaintext
 Arrangement,Total Score
@@ -141,24 +134,13 @@ Arrangement,Total Score
 
 - `threading_performance.log`:
   Logs execution times for threaded and non-threaded operations.
-  Example:
+
+**Example:**
 
 ```plaintext
 Threaded Execution Time: 0.001221 seconds
 Non-Threaded Execution Time: 0.000079 seconds
 ```
-
-## **Technical Concepts**
-
-1. Parallelism with Threads
-   Each thread computes compatibility scores for one individual.
-   Reduces computation time by processing multiple mentees/participants simultaneously.
-2. Thread Synchronization
-   Mutex locks ensure consistency in shared data (compatibility scores).
-   Avoids race conditions during multi-threaded updates.
-3. File and Data Handling
-   Parses CSV input files into structured datasets.
-   Writes detailed logs and results for reproducibility.
 
 ## **Error Handling**
 
