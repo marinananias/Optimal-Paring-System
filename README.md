@@ -1,6 +1,6 @@
 # **Optimal Pairing System**
 
-- **Author:** [@marinanias](https://www.github.com/marinananias)
+- **Author:** [@marinananias](https://www.github.com/marinananias)
 - **Final Project:** CSC 213 - Operating Systems & Parallel Algorithms
 
 ## **Overview**
@@ -25,7 +25,7 @@ It has the purpose to be used at BRASA-Brazilian Student Association-to automate
 1. **Clone the Repository:**
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/marinananias/Optimal-Paring-System.git
 cd final_project
 ```
 
@@ -60,13 +60,9 @@ make
   - `mentee_mentor`: Match mentees to mentors, respecting capacity constraints.
   - `participant_panel`: Match participants to panels without constraints.
 
-- `<file1>`:
+- `<file1>`: CSV file containing the first dataset (mentees or participants).
 
-CSV file containing the first dataset (mentees or participants).
-
-- `<file2>`:
-
-CSV file containing the second dataset (mentors or panels).
+- `<file2>`: CSV file containing the second dataset (mentors or panels).
 
 ## **Input Files Provided**
 
